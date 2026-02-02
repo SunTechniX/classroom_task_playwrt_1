@@ -1,0 +1,14 @@
+[MESSAGES CONTROL]
+disable =
+    missing-module-docstring,
+    missing-function-docstring,
+    missing-class-docstring,
+    invalid-name,
+    too-few-public-methods,
+    too-many-locals
+
+[FORMAT]
+max-line-length = 79
+
+[BASIC]
+good-names = i,j,k,ex,_,fp,f,p
