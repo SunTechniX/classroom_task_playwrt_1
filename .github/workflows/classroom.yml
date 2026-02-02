@@ -14,7 +14,7 @@ permissions:
 jobs:
   grade:
     name: Автопроверка задания
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04  # ← ВАЖНО: используем стабильную версию 22.04 вместо 24.04
     timeout-minutes: 8
 
     steps:
@@ -26,16 +26,11 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Установка системных зависимостей
+      - name: Установка зависимостей через Playwright (автоматически)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y libnss3 libx11-xcb1 libxcomposite1 libxcursor1 \
-            libxdamage1 libxi6 libxtst6 libxrandr2 libgbm1 libasound2 libxshmfence1
-
-      - name: Установка Python-зависимостей
-        run: |
-          pip install -r requirements.txt
-          playwright install-deps chromium firefox webkit
+          pip install playwright==1.40.0 pytest flake8 pylint
+          playwright install-deps  # ← Автоматически установит правильные пакеты для ОС
+          playwright install chromium firefox webkit
 
       - name: Проверка структуры проекта
         run: python -m pytest tests/test_structure.py -v --tb=short
