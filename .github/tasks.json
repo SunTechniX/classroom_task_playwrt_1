@@ -1,0 +1,48 @@
+{
+  "tasks": [
+    {
+      "id": "task1_structure",
+      "name": "Задание 1: Структура проекта",
+      "max_score": 15,
+      "description": "Наличие всех файлов и папок",
+      "checks": ["chromium_exists", "firefox_exists", "webkit_exists", "readme_exists"]
+    },
+    {
+      "id": "task1_syntax",
+      "name": "Задание 1: Синтаксис скриптов",
+      "max_score": 20,
+      "description": "Корректный Python-код без ошибок компиляции",
+      "checks": ["chromium_syntax", "firefox_syntax", "webkit_syntax"]
+    },
+    {
+      "id": "task1_imports",
+      "name": "Задание 1: Импорты и браузеры",
+      "max_score": 20,
+      "description": "Использование sync_playwright и правильных браузеров",
+      "checks": ["chromium_import", "firefox_import", "webkit_import", "title_output"]
+    },
+    {
+      "id": "task2_syntax",
+      "name": "Задание 2: Синтаксис headless-скрипта",
+      "max_score": 15,
+      "description": "Корректный код info_headless.py",
+      "checks": ["headless_syntax", "headless_import", "headless_mode"]
+    },
+    {
+      "id": "task2_output",
+      "name": "Задание 2: Формат вывода",
+      "max_score": 15,
+      "description": "Проверка наличия вывода в консоль (3 параметра)",
+      "checks": ["user_agent_output", "viewport_output", "url_output"]
+    },
+    {
+      "id": "linters",
+      "name": "Стиль кода (линтеры)",
+      "max_score": 15,
+      "description": "Соблюдение стандартов PEP 8 и отсутствие критических замечаний",
+      "checks": ["flake8_score", "pylint_score"]
+    }
+  ],
+  "max_total_score": 100,
+  "passing_score": 70
+}
