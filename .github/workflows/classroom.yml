@@ -13,8 +13,8 @@ permissions:
 
 jobs:
   grade:
-    name: Автопроверка задания
-    runs-on: ubuntu-22.04  # ← ВАЖНО: используем стабильную версию 22.04 вместо 24.04
+    name: "Автопроверка задания"
+    runs-on: ubuntu-22.04
     timeout-minutes: 8
 
     steps:
@@ -26,25 +26,17 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Установка зависимостей через Playwright (автоматически)
+      - name: Установка зависимостей
         run: |
-          pip install playwright==1.40.0 pytest flake8 pylint
-          playwright install-deps  # ← Автоматически установит правильные пакеты для ОС
+          pip install -r requirements.txt
+          playwright install-deps
           playwright install chromium firefox webkit
 
-      - name: Проверка структуры проекта
-        run: python -m pytest tests/test_structure.py -v --tb=short
-        continue-on-error: true
-
-      - name: Статический анализ синтаксиса
-        run: python -m pytest tests/test_syntax.py -v --tb=short
-        continue-on-error: true
-
-      - name: Проверка линтеров
+      - name: 🔍 Проверка линтеров
         run: python tools/check_linters.py
         continue-on-error: true
 
-      - name: Генерация итогового отчёта
+      - name: 🧪 Запуск тестов и генерация отчёта
         run: python tools/generate_summary.py
         env:
           GITHUB_STEP_SUMMARY: ${{ github.step_summary }}
