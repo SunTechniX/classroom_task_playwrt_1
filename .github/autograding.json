@@ -1,0 +1,22 @@
+{
+  "tests": [
+    {
+      "name": "Проверка структуры проекта",
+      "setup": "pip install -r requirements.txt",
+      "run": "python -m pytest tests/test_structure.py -v --tb=short",
+      "points": 15
+    },
+    {
+      "name": "Статический анализ синтаксиса",
+      "setup": "pip install -r requirements.txt",
+      "run": "python -m pytest tests/test_syntax.py -v --tb=short",
+      "points": 40
+    },
+    {
+      "name": "Проверка стиля кода",
+      "setup": "pip install -r requirements.txt",
+      "run": "python tools/check_linters.py",
+      "points": 15
+    }
+  ]
+}

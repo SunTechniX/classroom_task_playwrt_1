@@ -1,0 +1,55 @@
+name: Проверка домашнего задания Playwright
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  grade:
+    name: Автопроверка задания
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - name: Checkout кода
+        uses: actions/checkout@v4
+
+      - name: Установка Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Установка системных зависимостей
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libx11-xcb1 libxcomposite1 libxcursor1 \
+            libxdamage1 libxi6 libxtst6 libxrandr2 libgbm1 libasound2 libxshmfence1
+
+      - name: Установка Python-зависимостей
+        run: |
+          pip install -r requirements.txt
+          playwright install-deps chromium firefox webkit
+
+      - name: Проверка структуры проекта
+        run: python -m pytest tests/test_structure.py -v --tb=short
+        continue-on-error: true
+
+      - name: Статический анализ синтаксиса
+        run: python -m pytest tests/test_syntax.py -v --tb=short
+        continue-on-error: true
+
+      - name: Проверка линтеров
+        run: python tools/check_linters.py
+        continue-on-error: true
+
+      - name: Генерация итогового отчёта
+        run: python tools/generate_summary.py
+        env:
+          GITHUB_STEP_SUMMARY: ${{ github.step_summary }}
