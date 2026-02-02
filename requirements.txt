@@ -1,0 +1,5 @@
+playwright
+pytest
+flake8
+pylint
+pytest-timeout
